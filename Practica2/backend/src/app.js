@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 // Conectar las rutas de autenticación
 app.use('/', authRoutes); // esto expone POST /register y POST /login
+app.use('/', userRoutes); // esto expone GET /users, GET /users/:id, PUT /users/:id, DELETE /users/:id
 
 const PORT = process.env.PORT || 5000;
 
