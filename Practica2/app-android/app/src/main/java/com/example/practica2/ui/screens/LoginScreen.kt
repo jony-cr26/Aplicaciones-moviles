@@ -1,12 +1,12 @@
-package com.tupaquete.practica2.ui.screens
+package com.example.practica2.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.tupaquete.practica2.data.LoginRequest
-import com.tupaquete.practica2.data.RetrofitClient
+import com.example.practica2.data.LoginRequest
+import com.example.practica2.data.RetrofitClient
 import kotlinx.coroutines.launch
 
 @Composable

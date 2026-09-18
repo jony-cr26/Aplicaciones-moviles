@@ -1,4 +1,4 @@
-package com.tupaquete.practica2.data
+package com.example.practica2.data
 
 data class RegisterRequest(
     val username: String,

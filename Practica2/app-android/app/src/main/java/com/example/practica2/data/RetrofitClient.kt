@@ -1,4 +1,4 @@
-package com.tupaquete.practica2.data
+package com.example.practica2.data
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

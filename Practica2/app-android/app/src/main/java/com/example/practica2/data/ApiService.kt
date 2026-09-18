@@ -1,4 +1,4 @@
-package com.tupaquete.practica2.data
+package com.example.practica2.data
 
 import retrofit2.Response
 import retrofit2.http.*

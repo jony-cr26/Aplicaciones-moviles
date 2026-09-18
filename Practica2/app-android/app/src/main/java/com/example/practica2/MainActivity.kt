@@ -3,45 +3,57 @@ package com.example.practica2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.*
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.practica2.navigation.Screen
+import com.example.practica2.ui.screens.LoginScreen
+import com.example.practica2.ui.screens.RegisterScreen
 import com.example.practica2.ui.theme.Practica2Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             Practica2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun AppNavigation() {
+    val navController: NavHostController = rememberNavController()
+    var authToken by remember { mutableStateOf<String?>(null) }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Practica2Theme {
-        Greeting("Android")
+    NavHost(navController = navController, startDestination = Screen.Login.route) {
+
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoginSuccess = { token ->
+                    authToken = token
+                    navController.navigate(Screen.UserList.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Screen.Register.route) {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Screen.UserList.route) {
+            androidx.compose.material3.Text("Aquí irá la lista de usuarios. Token: $authToken")
+        }
     }
 }
