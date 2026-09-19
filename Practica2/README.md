@@ -239,18 +239,18 @@ Authorization: Bearer <token>
 4. El backend queda disponible en `http://localhost:5000` (o en la IP local del equipo anfitrión, para pruebas desde un dispositivo físico — ver siguiente sección).
 
 5. La IP está definida directamente en el código fuente:
-
-Archivo: app-android/app/src/main/java/.../data/RetrofitClient.kt
-
-private const val BASE_URL = "http://192.168.1.73:5000/"
-
-Antes de compilar y ejecutar la aplicación es necesario:
-
-Obtener la IP local del equipo donde corre el backend (ipconfig en Windows, ifconfig o ip addr en Linux/Mac).
-Reemplazar la IP en BASE_URL por esa dirección.
-Asegurarse de que el dispositivo Android (físico) esté conectado a la misma red WiFi que el equipo donde corre el backend.
-Si se usa un emulador de Android en lugar de un dispositivo físico, BASE_URL debe ser http://10.0.2.2:5000/ en su lugar.
-En Windows, puede ser necesario permitir conexiones entrantes al puerto 5000 en el Firewall
+>
+> **Archivo:** `app-android/app/src/main/java/.../data/RetrofitClient.kt`
+> ```kotlin
+> private const val BASE_URL = "http://192.168.1.73:5000/"
+> ```
+>
+> Antes de compilar y ejecutar la aplicación en una máquina distinta, es necesario:
+> 1. Obtener la IP local del equipo donde corre el backend (`ipconfig` en Windows, `ifconfig` o `ip addr` en Linux/Mac).
+> 2. Reemplazar la IP en `BASE_URL` por esa dirección.
+> 3. Asegurarse de que el dispositivo Android (físico) esté conectado a la **misma red WiFi** que el equipo donde corre el backend.
+> 4. Si se usa un emulador de Android en lugar de un dispositivo físico, `BASE_URL` debe ser `http://10.0.2.2:5000/` en su lugar.
+> 5. En Windows, puede ser necesario permitir conexiones entrantes al puerto 5000 en el Firewall (ver sección de Conclusiones).
 
 ### Capturas de pantalla
 
