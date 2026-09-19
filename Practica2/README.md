@@ -232,14 +232,13 @@ Authorization: Bearer <token>
    ```bash
    cd backend
    ```
-3. Crear el archivo `.env` a partir de `.env.example`, definiendo tus propios valores para `JWT_SECRET`, `ADMIN_EMAIL` y `ADMIN_PASSWORD`.
-4. Levantar el servicio:
+3. Levantar el servicio:
    ```bash
    docker compose up --build
    ```
-5. El backend queda disponible en `http://localhost:5000` (o en la IP local del equipo anfitrión, para pruebas desde un dispositivo físico — ver siguiente sección).
+4. El backend queda disponible en `http://localhost:5000` (o en la IP local del equipo anfitrión, para pruebas desde un dispositivo físico — ver siguiente sección).
 
-La IP está definida directamente en el código fuente:
+5. La IP está definida directamente en el código fuente:
 
 Archivo: app-android/app/src/main/java/.../data/RetrofitClient.kt
 
@@ -258,28 +257,36 @@ En Windows, puede ser necesario permitir conexiones entrantes al puerto 5000 en 
 > Las siguientes imágenes están almacenadas en la carpeta `docs/` del repositorio.
 
 **Registro de usuario:**
-`![Registro](docs/registro.png)`
+
+![Registro](docs/registro.jpg)
 
 **Inicio de sesión:**
-`![Login](docs/login.png)`
+
+![Login](docs/login.jpg)
 
 **Manejo de credenciales incorrectas:**
-`![Login fallido](docs/login-error.png)`
+
+![Login fallido](docs/login-error.jpg)
 
 **Operación Read — vista de usuario normal (propio perfil):**
-`![Perfil usuario](docs/perfil-usuario.png)`
+
+![Perfil usuario](docs/perfil-usuario.jpg)
 
 **Operación Read — vista de administrador (lista de usuarios):**
-`![Lista de usuarios](docs/lista-usuarios.png)`
+
+![Lista de usuarios](docs/lista-usuarios.jpg)
 
 **Operación Update — edición de perfil:**
-`![Editar perfil](docs/editar-perfil.png)`
+
+![Editar perfil](docs/editar-perfil.jpg)
 
 **Operación Update — administrador cambiando el rol de un usuario:**
-`![Cambio de rol](docs/cambio-rol.png)`
+
+![Cambio de rol](docs/cambio-rol.jpg)
 
 **Operación Delete — eliminación de una cuenta:**
-`![Eliminar usuario](docs/eliminar-usuario.png)`
+
+![Eliminar usuario](docs/eliminar-usuario.jpg)
 
 ---
 
@@ -291,4 +298,28 @@ El desarrollo de esta practica fue muy desafiante e interesante ya que nunca hab
 
 ## Bibliografía
 
-[PENDIENTE — se incluirá en formato APA]
+Docker Inc. (s.f.). *Docker Compose overview*. Docker Docs. https://docs.docker.com/compose/
+
+Docker Inc. (s.f.). *Dockerfile reference*. Docker Docs. https://docs.docker.com/reference/dockerfile/
+
+Express.js. (s.f.). *Express — Node.js web application framework*. https://expressjs.com/
+
+Google Inc. (s.f.). *Jetpack Compose*. Android Developers. https://developer.android.com/jetpack/compose
+
+Google Inc. (s.f.). *Kotlin coroutines on Android*. Android Developers. https://developer.android.com/kotlin/coroutines
+
+Google Inc. (s.f.). *Navigation with Compose*. Android Developers. https://developer.android.com/develop/ui/compose/navigation
+
+Kreling, N. (s.f.). *bcryptjs* [Paquete de software]. npm. https://www.npmjs.com/package/bcryptjs
+
+Mozilla Foundation. (s.f.). *HTTP response status codes*. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+Node.js Foundation. (s.f.). *Node.js documentation*. https://nodejs.org/en/docs
+
+OpenJS Foundation. (s.f.). *dotenv* [Paquete de software]. npm. https://www.npmjs.com/package/dotenv
+
+Sequelize contributors. (s.f.). *Sequelize — Feature-rich ORM for modern Node.js and TypeScript*. https://sequelize.org/docs/v6/
+
+Square Inc. (s.f.). *Retrofit — A type-safe HTTP client for Android and the JVM*. https://square.github.io/retrofit/
+
+Web IDL / Auth0. (s.f.). *Introduction to JSON Web Tokens*. JWT.io. https://jwt.io/introduction
