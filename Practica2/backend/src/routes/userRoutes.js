@@ -83,6 +83,35 @@ router.put('/users/:id', verifyToken, async (req, res) => {
   }
 });
 
+// CREATE - crear un usuario desde el panel de administración (solo admin)
+router.post('/users', verifyToken, requireAdmin, async (req, res) => {
+  try {
+    const { username, email, password, role } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    }
+
+    const password_hash = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      username,
+      email,
+      password_hash,
+      role: role || 'user' // Si no manda rol, por defecto es 'user'
+    });
+
+    res.status(201).json({
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      role: newUser.role
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
 // DELETE - eliminar cuenta (dueño o admin)
 router.delete('/users/:id', verifyToken, async (req, res) => {
   try {

@@ -1,27 +1,41 @@
 require('dotenv').config();
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const sequelize = require('./config/database');
+const User = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-// Middleware para parsear JSON en el body de las peticiones
 app.use(express.json());
 
-// Ruta raíz de verificación (GET a la raíz, como menciona tu documento)
 app.get('/', (req, res) => {
   res.json({ message: 'API funcionando correctamente' });
 });
 
-// Conectar las rutas de autenticación
-app.use('/', authRoutes); // esto expone POST /register y POST /login
-app.use('/', userRoutes); // esto expone GET /users, GET /users/:id, PUT /users/:id, DELETE /users/:id
+app.use('/', authRoutes);
+app.use('/', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.sync().then(() => {
+async function seedAdmin() {
+  const existingAdmin = await User.findOne({ where: { role: 'admin' } });
+  if (!existingAdmin) {
+    const password_hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+    await User.create({
+      username: 'admin',
+      email: process.env.ADMIN_EMAIL,
+      password_hash,
+      role: 'admin'
+    });
+    console.log('Usuario admin creado por defecto');
+  }
+}
+
+sequelize.sync().then(async () => {
   console.log('Base de datos sincronizada');
+  await seedAdmin();
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
   });

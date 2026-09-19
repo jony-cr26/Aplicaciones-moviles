@@ -9,7 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.practica2.navigation.Screen
+import com.example.practica2.ui.screens.AdminScreen
 import com.example.practica2.ui.screens.LoginScreen
+import com.example.practica2.ui.screens.ProfileScreen
 import com.example.practica2.ui.screens.RegisterScreen
 import com.example.practica2.ui.theme.Practica2Theme
 
@@ -28,16 +30,30 @@ class MainActivity : ComponentActivity() {
 fun AppNavigation() {
     val navController: NavHostController = rememberNavController()
     var authToken by remember { mutableStateOf<String?>(null) }
+    var userRole by remember { mutableStateOf<String?>(null) }
+    var userId by remember { mutableStateOf<Int?>(null) }
 
     NavHost(navController = navController, startDestination = Screen.Login.route) {
 
         composable(Screen.Login.route) {
             LoginScreen(
-                onLoginSuccess = { token ->
+                onLoginSuccess = { token, role, id ->
                     authToken = token
-                    navController.navigate(Screen.UserList.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                    userRole = role
+                    userId = id
+                    
+                    if (role == "admin") {
+                        navController.navigate(Screen.AdminDashboard.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(Screen.Profile.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
                     }
+                },
+                onNavigateToRegister = {
+                    navController.navigate(Screen.Register.route)
                 }
             )
         }
@@ -52,8 +68,37 @@ fun AppNavigation() {
             )
         }
 
-        composable(Screen.UserList.route) {
-            androidx.compose.material3.Text("Aquí irá la lista de usuarios. Token: $authToken")
+        composable(Screen.Profile.route) {
+            if (authToken != null && userId != null) {
+                ProfileScreen(
+                    token = authToken!!,
+                    userId = userId!!,
+                    onLogout = {
+                        authToken = null
+                        userRole = null
+                        userId = null
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Profile.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+        }
+
+        composable(Screen.AdminDashboard.route) {
+            if (authToken != null) {
+                AdminScreen(
+                    token = authToken!!,
+                    onLogout = {
+                        authToken = null
+                        userRole = null
+                        userId = null
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.AdminDashboard.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
     }
 }

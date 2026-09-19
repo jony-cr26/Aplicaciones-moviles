@@ -12,7 +12,9 @@ data class LoginRequest(
 )
 
 data class LoginResponse(
-    val token: String
+    val token: String,
+    val role: String?, // Añadido para diferenciar si es 'admin' o 'user'
+    val id: Int
 )
 
 data class UserResponse(

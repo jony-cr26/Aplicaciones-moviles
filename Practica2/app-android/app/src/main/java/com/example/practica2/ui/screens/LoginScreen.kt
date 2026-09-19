@@ -10,12 +10,14 @@ import com.example.practica2.data.RetrofitClient
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(onLoginSuccess: (String) -> Unit) {
+fun LoginScreen(
+    onLoginSuccess: (String, String, Int) -> Unit, // Modificado para recibir token y rol
+    onNavigateToRegister: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
-
     val scope = rememberCoroutineScope()
 
     Column(
@@ -48,17 +50,20 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
 
         Button(
             onClick = {
-                // TU EJERCICIO: completa esta lógica
                 isLoading = true
                 errorMessage = null
 
                 scope.launch {
                     try {
                         val response = RetrofitClient.apiService.login(LoginRequest(email, password))
-                        if (response.isSuccessful) {
-                            val token = response.body()?.token
+                        if (response.isSuccessful && response.body() != null) {
+                            val body = response.body()!!
+                            val token = body.token
+                            val role = body.role ?: "user"
+                            val id = body.id // <-- Obtenemos el id del backend
+                            
                             if (token != null) {
-                                onLoginSuccess(token)
+                                onLoginSuccess(token, role, id) // <-- Mandamos los 3 valores
                             } else {
                                 errorMessage = "Error: token no recibido"
                             }
@@ -76,6 +81,16 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(if (isLoading) "Cargando..." else "Iniciar Sesión")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Botón para ir al Registro
+        TextButton(
+            onClick = onNavigateToRegister,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("¿Aún no tienes cuenta? Regístrate")
         }
     }
 }

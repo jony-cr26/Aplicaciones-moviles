@@ -4,7 +4,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-
     @POST("register")
     suspend fun register(@Body request: RegisterRequest): Response<UserResponse>
 
@@ -16,20 +15,26 @@ interface ApiService {
 
     @GET("users/{id}")
     suspend fun getUser(
-        @Path("id") id: Int,
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<UserResponse>
+
+    @POST("users") // Endpoint para crear por el Admin
+    suspend fun createUser(
+        @Header("Authorization") token: String,
+        @Body request: UserRequest
     ): Response<UserResponse>
 
     @PUT("users/{id}")
     suspend fun updateUser(
+        @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Body request: UserRequest,
-        @Header("Authorization") token: String
+        @Body request: UserRequest
     ): Response<UserResponse>
 
     @DELETE("users/{id}")
     suspend fun deleteUser(
-        @Path("id") id: Int,
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
     ): Response<MessageResponse>
 }
